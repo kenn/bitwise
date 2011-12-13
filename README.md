@@ -38,7 +38,23 @@ b.to_bits
  => "00001000"
 ```
 
-Index assignment and retrieval:
+String-based assignment and retrieval:
+
+```ruby
+b = Bitwise.new
+b.value = "abc"
+
+b.size
+ => 3
+
+b.to_bits
+ => "011000010110001001100011"
+
+b.value.unpack('C*')
+ => [97, 98, 99]
+```
+
+Index-based assignment and retrieval:
 
 ```ruby
 b = Bitwise.new
@@ -50,16 +66,10 @@ b.to_bits
 b.cardinality
  => 3
 
-b.size
- => 13
-
 b.set_at(20)
 
 b.to_bits
  => "01000000001000000000100000000000000000000000000000000000000000000000000000000000000000000000000000001000"
-
-b.value.unpack('C*')
- => [64, 32, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8]
 
 b.cardinality
  => 4
