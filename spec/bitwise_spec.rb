@@ -12,14 +12,17 @@ describe Bitwise do
     it "bit-based" do
       @bitwise.to_bits.should == '00000000'
 
-      @bitwise.set_at 1
-      @bitwise.set_at 4
+      @bitwise.set_at(1)
+      @bitwise.set_at(4)
       @bitwise.to_bits.should == '01001000'
       @bitwise.cardinality.should == 2
 
       @bitwise.clear_at(1)
       @bitwise.to_bits.should == '00001000'
       @bitwise.cardinality.should == 1
+
+      lambda { @bitwise.set_at(7) }.should_not raise_error(IndexError)
+      lambda { @bitwise.set_at(8) }.should raise_error(IndexError)
     end
 
     it "string-based" do
@@ -34,6 +37,7 @@ describe Bitwise do
       @bitwise.to_bits.should == '011010001000000010000000'
       @bitwise.indexes.should == [1, 2, 4, 8, 16]
       @bitwise.cardinality.should == 5
+
       @bitwise.set_at 10
       @bitwise.to_bits.should == '011010001010000010000000'
       @bitwise.indexes.should == [1, 2, 4, 8, 10, 16]
@@ -105,15 +109,19 @@ describe Bitwise do
     it "indexes assignment" do
       assign_indexes(1000, 10)
       measure { @bitwise.indexes = @indexes }.should < 0.0001
+      measure { @bitwise.indexes }.should < 0.0001
 
       assign_indexes(10_000, 100)
       measure { @bitwise.indexes = @indexes }.should < 0.001
+      measure { @bitwise.indexes }.should < 0.001
 
       assign_indexes(100_000, 1000)
       measure { @bitwise.indexes = @indexes }.should < 0.01
+      measure { @bitwise.indexes }.should < 0.01
 
       assign_indexes(1000_000, 10_000)
       measure { @bitwise.indexes = @indexes }.should < 0.1
+      measure { @bitwise.indexes }.should < 0.1
     end
 
     it "cardinality sparse" do

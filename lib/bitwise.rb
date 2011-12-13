@@ -47,6 +47,7 @@ class Bitwise
 
   def get_byte(index)
     @div, @mod = index.divmod(8)
+    raise IndexError, 'out of bounds' if @div < 0 or @div >= @value.bytesize
     @byte = @value.getbyte(@div)
   end
 
@@ -88,7 +89,7 @@ class Bitwise
     array.each do |index|
       set_at(index)
     end
-    @value.bytesize
+    array.size
   end
 
   def indexes
