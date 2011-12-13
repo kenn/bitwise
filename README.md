@@ -46,10 +46,8 @@ b.value = "abc"
 
 b.size
  => 3
-
 b.to_bits
  => "011000010110001001100011"
-
 b.value.unpack('C*')
  => [97, 98, 99]
 ```
@@ -58,40 +56,52 @@ Index-based assignment and retrieval:
 
 ```ruby
 b = Bitwise.new
-b.indexes = [1, 10, 100]
+b.indexes = [1, 2, 4, 8, 16]
 
 b.to_bits
- => "01000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000"
-
-b.cardinality
- => 3
-
-b.set_at(20)
-
-b.to_bits
- => "01000000001000000000100000000000000000000000000000000000000000000000000000000000000000000000000000001000"
-
-b.cardinality
- => 4
-
+ => "011010001000000010000000"
 b.indexes
- => [1, 10, 20, 100]
+ => [1, 2, 4, 8, 16]
+b.cardinality
+ => 5
+
+b.set_at(10)
+
+b.to_bits
+ => "011010001010000010000000"
+b.indexes
+ => [1, 2, 4, 8, 10, 16]
+b.cardinality
+ => 6
 ```
 
-Union and intersect:
+NOT, OR, AND and XOR:
 
 ```ruby
 b1 = Bitwise.new
 b2 = Bitwise.new
 b1.indexes = [1, 2, 3, 5, 6]
-b2.indexes = [1, 2, 4, 8]
+b2.indexes = [1, 2, 4, 8, 16]
 
-b1.to_bits
- => "01110110"
-b2.to_bits
- => "0110100010000000"
-(b1 | b2).to_bits
- => "0111111010000000"
-(b1 & b2).to_bits
- => "01100000"
+(~b1).indexes
+ => [0, 4, 7]
+(b1 | b2).indexes
+ => [1, 2, 3, 4, 5, 6, 8, 16]
+(b1 & b2).indexes
+ => [1, 2]
+(b1 ^ b2).indexes
+ => [3, 4, 5, 6, 8, 16]
+```
+
+As a bonus, `Bitwise#string_not`, `Bitwise#string_union`, `Bitwise#string_intersect`, and `Bitwise#string_xor` can be used as a standalone method to work with any binary string.
+
+```ruby
+Bitwise.string_not "\xF0"
+ => "\x0F"
+Bitwise.string_union "\xF0","\xFF"
+ => "\xFF"
+Bitwise.string_intersect "\xF0","\xFF"
+ => "\xF0"
+Bitwise.string_xor "\xF0","\xFF"
+ => "\x0F"
 ```

@@ -1,3 +1,5 @@
+# coding: ascii-8bit
+
 require 'bitwise'
 require 'set'
 
@@ -6,27 +8,81 @@ describe Bitwise do
     @bitwise = Bitwise.new(1)
   end
 
-  it "should set and clear" do
-    @bitwise.to_bits.should == '00000000'
+  describe "assignment and retrieval" do
+    it "bit-based" do
+      @bitwise.to_bits.should == '00000000'
 
-    @bitwise.set_at 1
-    @bitwise.set_at 2
-    @bitwise.set_at 3
-    @bitwise.set_at 5
-    @bitwise.to_bits.should == '01110100'
-    @bitwise.cardinality.should == 4
+      @bitwise.set_at 1
+      @bitwise.set_at 4
+      @bitwise.to_bits.should == '01001000'
+      @bitwise.cardinality.should == 2
 
-    @bitwise.clear_at(1)
-    @bitwise.clear_at(3)
-    @bitwise.to_bits.should == '00100100'
-    @bitwise.cardinality.should == 2
+      @bitwise.clear_at(1)
+      @bitwise.to_bits.should == '00001000'
+      @bitwise.cardinality.should == 1
+    end
+
+    it "string-based" do
+      @bitwise.value = 'abc'
+      @bitwise.size.should == 3
+      @bitwise.to_bits.should == '011000010110001001100011'
+      @bitwise.cardinality.should == 10
+    end
+
+    it "index-based" do
+      @bitwise.indexes = [1, 2, 4, 8, 16]
+      @bitwise.to_bits.should == '011010001000000010000000'
+      @bitwise.indexes.should == [1, 2, 4, 8, 16]
+      @bitwise.cardinality.should == 5
+      @bitwise.set_at 10
+      @bitwise.to_bits.should == '011010001010000010000000'
+      @bitwise.indexes.should == [1, 2, 4, 8, 10, 16]
+      @bitwise.cardinality.should == 6
+    end
   end
 
-  it "should set by indexes" do
-    @bitwise.indexes = [1,10]
-    @bitwise.indexes.should == [1,10]
-    @bitwise.to_bits.should == '0100000000100000'
-    @bitwise.cardinality.should == 2
+  describe "operators" do
+    before do
+      @b1 = Bitwise.new
+      @b2 = Bitwise.new
+      @b1.indexes = [1, 2, 3, 5, 6]
+      @b2.indexes = [1, 2, 4, 8, 16]
+    end
+
+    it "NOT" do
+      @b1.not.indexes.should == [0, 4, 7]
+    end
+
+    it "OR" do
+      @b1.union(@b2).indexes.should == [1, 2, 3, 4, 5, 6, 8, 16]
+    end
+
+    it "AND" do
+      @b1.intersect(@b2).indexes.should == [1, 2]
+    end
+
+    it "XOR" do
+      @b1.xor(@b2).indexes.should == [3, 4, 5, 6, 8, 16]
+    end
+  end
+
+  describe "standalone" do
+    it "NOT" do
+      Bitwise.string_not("\xF0").should == "\x0F"
+    end
+
+    it "OR" do
+      Bitwise.string_union("\xF0","\xFF").should == "\xFF"
+    end
+
+    it "AND" do
+      Bitwise.string_intersect("\xF0","\xFF").should == "\xF0"
+    end
+
+    it "XOR" do
+      Bitwise.string_xor("\xF0","\xFF").should == "\x0F"
+    end
+
   end
 
   describe "benchmark" do

@@ -50,6 +50,13 @@ class Bitwise
     @byte = @value.getbyte(@div)
   end
 
+  def not
+    result = Bitwise.new
+    result.value = Bitwise.string_not(self.value)
+    result
+  end
+  alias :~ :not
+
   def intersect(other)
     min, max = [ self.value, other.value ].sort_by{|i| i.bytesize }
     result = Bitwise.new
@@ -65,6 +72,14 @@ class Bitwise
     result
   end
   alias :| :union
+
+  def xor(other)
+    min, max = [ self.value, other.value ].sort_by{|i| i.bytesize }
+    result = Bitwise.new
+    result.value = Bitwise.string_xor(max, min)
+    result
+  end
+  alias :^ :xor
 
   def value=(string)
     @value = string.force_encoding(Encoding::ASCII_8BIT)
