@@ -67,3 +67,21 @@ b.cardinality
 b.indexes
  => [1, 10, 20, 100]
 ```
+
+Union and intersect:
+
+```ruby
+b1 = Bitwise.new
+b2 = Bitwise.new
+b1.indexes = [1, 2, 3, 5, 6]
+b2.indexes = [1, 2, 4, 8]
+
+b1.to_bits
+ => "01110110"
+b2.to_bits
+ => "0110100010000000"
+(b1 | b2).to_bits
+ => "0111111010000000"
+(b1 & b2).to_bits
+ => "01100000"
+```
