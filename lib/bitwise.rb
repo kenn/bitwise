@@ -5,8 +5,8 @@ require 'bitwise/bitwise'
 class Bitwise
   attr_accessor :value
 
-  def initialize(size = 0)
-    @value = "\x00" * size
+  def initialize(value = "")
+    @value = value.force_encoding(Encoding::ASCII_8BIT)
   end
 
   def size
@@ -51,35 +51,31 @@ class Bitwise
   end
 
   def not
-    result = Bitwise.new
-    result.value = Bitwise.string_not(self.value)
-    result
+    Bitwise.new(Bitwise.string_not(self.value))
   end
   alias :~ :not
 
   def intersect(other)
-    min, max = [ self.value, other.value ].sort_by{|i| i.bytesize }
-    result = Bitwise.new
-    result.value = Bitwise.string_intersect(max, min)
-    result
+    assign_max_and_min(other)
+    Bitwise.new Bitwise.string_intersect(@max, @min)
   end
   alias :& :intersect
 
   def union(other)
-    min, max = [ self.value, other.value ].sort_by{|i| i.bytesize }
-    result = Bitwise.new
-    result.value = Bitwise.string_union(max, min)
-    result
+    assign_max_and_min(other)
+    Bitwise.new Bitwise.string_union(@max, @min)
   end
   alias :| :union
 
   def xor(other)
-    min, max = [ self.value, other.value ].sort_by{|i| i.bytesize }
-    result = Bitwise.new
-    result.value = Bitwise.string_xor(max, min)
-    result
+    assign_max_and_min(other)
+    Bitwise.new Bitwise.string_xor(@max, @min)
   end
   alias :^ :xor
+
+  def assign_max_and_min(other)
+    @min, @max = [ self.value, other.value ].sort_by{|i| i.bytesize }
+  end
 
   def value=(string)
     @value = string.force_encoding(Encoding::ASCII_8BIT)

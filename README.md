@@ -21,7 +21,7 @@ Usage
 Bitwise assignment and retrieval:
 
 ```ruby
-b = Bitwise.new(1)
+b = Bitwise.new("\x00")
 
 b.to_bits
  => "00000000"

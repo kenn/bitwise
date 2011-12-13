@@ -5,7 +5,7 @@ require 'set'
 
 describe Bitwise do
   before do
-    @bitwise = Bitwise.new(1)
+    @bitwise = Bitwise.new("\x00")
   end
 
   describe "assignment and retrieval" do
