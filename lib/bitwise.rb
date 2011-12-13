@@ -1,7 +1,5 @@
 # coding: ascii-8bit
 
-require "bitwise/bitwise"
-
 class Bitwise
   attr_accessor :value
 
