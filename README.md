@@ -93,7 +93,7 @@ b2.indexes = [1, 2, 4, 8, 16]
  => [3, 4, 5, 6, 8, 16]
 ```
 
-As a bonus, `Bitwise#string_not`, `Bitwise#string_union`, `Bitwise#string_intersect`, and `Bitwise#string_xor` can be used as a standalone method to work with any binary string.
+As a bonus, `Bitwise.string_not`, `Bitwise.string_union`, `Bitwise.string_intersect`, and `Bitwise.string_xor` can be used as a standalone utility to work with any binary string.
 
 ```ruby
 Bitwise.string_not "\xF0"
