@@ -1,5 +1,4 @@
 require 'bitwise'
-require 'bitwise/bitwise'
 require 'set'
 
 describe Bitwise do

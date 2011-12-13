@@ -3,7 +3,9 @@
 # require 'bundler'
 
 require "rake/extensiontask"
-Rake::ExtensionTask.new("bitwise")
+Rake::ExtensionTask.new("bitwise") do |extension|
+  extension.lib_dir = "lib/bitwise"
+end
 
 require 'rspec/core/rake_task'
 task :default => :spec
