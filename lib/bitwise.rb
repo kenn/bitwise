@@ -1,22 +1,18 @@
-# coding: ascii-8bit
+# encoding: binary
 
 require 'bitwise/bitwise'
 
 class Bitwise
   attr_accessor :value
 
-  def initialize(value = "")
-    @value = value.force_encoding(Encoding::ASCII_8BIT)
+  def initialize(string = "")
+    self.raw = string
   end
 
   def size
     @value.bytesize
   end
   alias :to_s :size
-
-  def to_bits
-    @value.unpack('B*').first
-  end
 
   def set_at(index)
     get_byte(index)
@@ -52,7 +48,7 @@ class Bitwise
   end
 
   def not
-    Bitwise.new(Bitwise.string_not(self.value))
+    Bitwise.new(Bitwise.string_not(self.raw))
   end
   alias :~ :not
 
@@ -75,11 +71,26 @@ class Bitwise
   alias :^ :xor
 
   def assign_max_and_min(other)
-    @min, @max = [ self.value, other.value ].sort_by{|i| i.bytesize }
+    @min, @max = [ self.raw, other.raw ].sort_by{|i| i.bytesize }
   end
 
-  def value=(string)
-    @value = string.force_encoding(Encoding::ASCII_8BIT)
+  def bits
+    @value.unpack('B*').first
+  end
+
+  def bits=(string)
+    @value = string.scan(/[01]{1,8}/).map do |slice|
+      (slice.bytesize == 8 ? slice : (slice + '0' * (8 - slice.bytesize))).to_i(2).chr
+    end.join
+    @value.bytesize
+  end
+
+  def raw
+    @value
+  end
+
+  def raw=(string)
+    @value = string.force_encoding(Encoding::BINARY)
     @value.bytesize
   end
 
@@ -89,23 +100,21 @@ class Bitwise
     array.each do |index|
       set_at(index)
     end
-    array.size
+    @value.bytesize
   end
 
   def indexes
     indexes = []
-    position = 0
-    @value.each_byte do |c|
+    @value.each_byte.with_index do |c, position|
       BITS_TABLE[c].each do |i|
         indexes << (position*8 + i)
       end
-      position += 1
     end
     indexes
   end
 
   def cardinality
-    Bitwise.population_count(self.value)
+    Bitwise.population_count(self.raw)
   end
 
   BITS_TABLE = (0..255).map do |i|

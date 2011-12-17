@@ -1,5 +1,3 @@
-# coding: ascii-8bit
-
 require 'bitwise'
 require 'set'
 
@@ -8,38 +6,51 @@ describe Bitwise do
     @bitwise = Bitwise.new("\x00")
   end
 
-  describe "assignment and retrieval" do
+  it "should encode to binary" do
+    @bitwise.raw.encoding.should == Encoding::BINARY
+    @bitwise.indexes = [1,2]
+    @bitwise.raw.encoding.should == Encoding::BINARY
+  end
+
+  it "set and clear" do
+    @bitwise.bits.should == '00000000'
+
+    @bitwise.set_at(1)
+    @bitwise.set_at(4)
+    @bitwise.bits.should == '01001000'
+    @bitwise.cardinality.should == 2
+
+    @bitwise.clear_at(1)
+    @bitwise.bits.should == '00001000'
+    @bitwise.cardinality.should == 1
+
+    lambda { @bitwise.set_at(7) }.should_not raise_error(IndexError)
+    lambda { @bitwise.set_at(8) }.should raise_error(IndexError)
+  end
+
+  describe "accessor" do
     it "bit-based" do
-      @bitwise.to_bits.should == '00000000'
-
-      @bitwise.set_at(1)
-      @bitwise.set_at(4)
-      @bitwise.to_bits.should == '01001000'
-      @bitwise.cardinality.should == 2
-
-      @bitwise.clear_at(1)
-      @bitwise.to_bits.should == '00001000'
-      @bitwise.cardinality.should == 1
-
-      lambda { @bitwise.set_at(7) }.should_not raise_error(IndexError)
-      lambda { @bitwise.set_at(8) }.should raise_error(IndexError)
+      @bitwise.bits = '0100100010'
+      @bitwise.size.should == 2
+      @bitwise.bits.should == '0100100010000000'
+      @bitwise.cardinality.should == 3
     end
 
     it "string-based" do
-      @bitwise.value = 'abc'
+      @bitwise.raw = 'abc'
       @bitwise.size.should == 3
-      @bitwise.to_bits.should == '011000010110001001100011'
+      @bitwise.bits.should == '011000010110001001100011'
       @bitwise.cardinality.should == 10
     end
 
     it "index-based" do
       @bitwise.indexes = [1, 2, 4, 8, 16]
-      @bitwise.to_bits.should == '011010001000000010000000'
+      @bitwise.bits.should == '011010001000000010000000'
       @bitwise.indexes.should == [1, 2, 4, 8, 16]
       @bitwise.cardinality.should == 5
 
       @bitwise.set_at 10
-      @bitwise.to_bits.should == '011010001010000010000000'
+      @bitwise.bits.should == '011010001010000010000000'
       @bitwise.indexes.should == [1, 2, 4, 8, 10, 16]
       @bitwise.cardinality.should == 6
     end
