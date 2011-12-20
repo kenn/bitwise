@@ -1,6 +1,8 @@
 Bitwise
 =======
 
+[![Build Status](https://secure.travis-ci.org/kenn/bitwise.png)](http://travis-ci.org/kenn/bitwise)
+
 Fast, memory efficient bitwise operations on large binary strings.
 
 Internally a bit array is represented as a ruby string with `Encoding::BINARY` encoding, which keeps billions of bits in a workable footprint.
