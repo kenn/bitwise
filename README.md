@@ -41,6 +41,8 @@ b.bits
 
 b.set_at?(4)
  => true
+b.unset_at?(4)
+ => false
 ```
 
 String-based accessor:
