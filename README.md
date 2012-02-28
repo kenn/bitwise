@@ -20,7 +20,7 @@ Install
 Usage
 -----
 
-Set and clear bits:
+Set and unset bits:
 
 ```ruby
 b = Bitwise.new("\x00")
@@ -34,10 +34,13 @@ b.set_at(4)
 b.bits
  => "01001000"
 
-b.clear_at(1)
+b.unset_at(1)
 
 b.bits
  => "00001000"
+
+b.set_at?(4)
+ => true
 ```
 
 String-based accessor:

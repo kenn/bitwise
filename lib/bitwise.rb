@@ -19,17 +19,27 @@ class Bitwise
     @value.setbyte(@div, @byte | bitmask)
   end
 
-  def clear_at(index)
+  def unset_at(index)
     get_byte(index)
     @value.setbyte(@div, @byte  & ~bitmask)
+  end
+
+  def clear_at(index)
+    warn 'Bitwise#clear_at is deprecated. Use Bitwise#unset_at instead.'
+    unset_at(index)
   end
 
   def set_at?(index)
     get_bit(index) == 1
   end
 
-  def clear_at?(index)
+  def unset_at?(index)
     get_bit(index) == 0
+  end
+
+  def clear_at?(index)
+    warn 'Bitwise#clear_at? is deprecated. Use Bitwise#unset_at? instead.'
+    unset_at?(index)
   end
 
   def get_bit(index)

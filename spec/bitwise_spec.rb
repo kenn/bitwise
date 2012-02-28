@@ -12,7 +12,7 @@ describe Bitwise do
     @bitwise.raw.encoding.should == Encoding::BINARY
   end
 
-  it "set and clear" do
+  it "set and unset" do
     @bitwise.bits.should == '00000000'
 
     @bitwise.set_at(1)
@@ -20,7 +20,7 @@ describe Bitwise do
     @bitwise.bits.should == '01001000'
     @bitwise.cardinality.should == 2
 
-    @bitwise.clear_at(1)
+    @bitwise.unset_at(1)
     @bitwise.bits.should == '00001000'
     @bitwise.cardinality.should == 1
 
