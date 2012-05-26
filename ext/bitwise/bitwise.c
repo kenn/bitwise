@@ -23,7 +23,7 @@ static int COUNT_TABLE[] = {
 
 static VALUE bw_population_count(VALUE self, VALUE str) {
   int count, i;
-  unsigned char *buffer = RSTRING_PTR(str);
+  unsigned char *buffer = (unsigned char *)RSTRING_PTR(str);
   count = 0;
   for (i = 0; i < RSTRING_LEN(str); i++) {
     count += COUNT_TABLE[buffer[i]];
@@ -65,7 +65,7 @@ static VALUE bw_string_xor(VALUE self, VALUE max, VALUE min)
 {
   VALUE result = rb_str_new(RSTRING_PTR(max), RSTRING_LEN(max));
   int i;
-  int min_len = RSTRING_LEN(min);
+  long min_len = RSTRING_LEN(min);
   for (i = 0; i < RSTRING_LEN(max); i++) {
     RSTRING_PTR(result)[i] ^= ((i < min_len) ? RSTRING_PTR(min)[i] : 0);
   }

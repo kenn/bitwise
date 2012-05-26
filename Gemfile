@@ -1,8 +1,3 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-group :development do
-  gem "rspec"
-  gem "bundler"
-  gem "jeweler"
-  gem "rake-compiler"
-end
+gemspec

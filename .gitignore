@@ -1,5 +1,3 @@
-*.gem
-*.bundle
 Gemfile.lock
-pkg/*
-tmp/*
+pkg
+tmp
