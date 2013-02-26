@@ -1,10 +1,10 @@
 #!/usr/bin/env rake
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 # Compile
-require "rake/extensiontask"
-Rake::ExtensionTask.new("bitwise") do |extension|
-  extension.lib_dir = "lib/bitwise"
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('bitwise_ext') do |ext|
+  ext.ext_dir = 'ext'
 end
 
 # RSpec

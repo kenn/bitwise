@@ -1,6 +1,6 @@
 # encoding: binary
 
-require 'bitwise/bitwise'
+require 'bitwise_ext'
 
 class Bitwise
   attr_accessor :value

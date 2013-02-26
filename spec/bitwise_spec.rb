@@ -1,3 +1,5 @@
+# encoding: binary
+
 require 'bitwise'
 require 'set'
 

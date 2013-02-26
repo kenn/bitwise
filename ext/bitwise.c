@@ -72,7 +72,7 @@ static VALUE bw_string_xor(VALUE self, VALUE max, VALUE min)
   return result;
 }
 
-void Init_bitwise()
+void Init_bitwise_ext()
 {
   BitwiseClass = rb_define_class("Bitwise", rb_cObject);
   rb_define_singleton_method(BitwiseClass, "population_count", bw_population_count, 1);

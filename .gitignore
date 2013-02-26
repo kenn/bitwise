@@ -1,3 +1,4 @@
 Gemfile.lock
+lib/bitwise_ext.*
 pkg
 tmp
