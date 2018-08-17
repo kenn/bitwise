@@ -12,6 +12,8 @@ Internally a bit array is represented as a ruby string with `Encoding::BINARY` e
 * 100,000,000 bits = 12.5MB
 * 1,000,000,000 bits = 125MB
 
+If you need a bit storage for ActiveRecord instead, take a look at [ActiveFlag](https://github.com/kenn/active_flag).
+
 Install
 -------
 
