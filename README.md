@@ -1,7 +1,7 @@
 Bitwise
 =======
 
-[![Build Status](https://secure.travis-ci.org/kenn/bitwise.png)](http://travis-ci.org/kenn/bitwise)
+![Build Status](https://github.com/kenn/bitwise/actions/workflows/ci.yml/badge.svg)
 
 Fast, memory efficient bitwise operations on large binary strings.
 
