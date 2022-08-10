@@ -15,8 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = '0.6.0' # retrieve this value by: Gem.loaded_specs['bitwise'].version.to_s
 
-  gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'bundler'
+  gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'rake-compiler'
 
   # For Travis
