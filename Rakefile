@@ -14,6 +14,6 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*_test.rb']
 end
 
-# Rake::Task[:test].prerequisites << :compile
+Rake::Task[:test].prerequisites << :compile
 
 task :default => :test
